@@ -366,3 +366,63 @@ button.ghost {
   color: rgba(247, 244, 235, 0.58);
   margin: 0;
 }
+
+
+.legal-box {
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top left, rgba(212, 175, 55, 0.14), transparent 34%),
+    rgba(255, 255, 255, 0.055);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.24);
+}
+
+.legal-box h3 {
+  margin: 4px 0 14px;
+}
+
+.legal-box pre {
+  max-height: 340px;
+  overflow: auto;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.78);
+  font-family: inherit;
+  font-size: 0.92rem;
+}
+
+.legal-box button {
+  margin-top: 14px;
+}
+
+
+.proposal-box {
+  margin-top: 22px;
+  padding: 22px;
+  border: 1px solid rgba(212, 175, 55, 0.28);
+  border-radius: 22px;
+  background:
+    radial-gradient(circle at top right, rgba(212, 175, 55, 0.18), transparent 34%),
+    rgba(255, 255, 255, 0.06);
+  box-shadow: 0 24px 80px rgba(0, 0, 0, 0.26);
+}
+
+.proposal-box h3 {
+  margin: 4px 0 14px;
+}
+
+.proposal-box pre {
+  max-height: 340px;
+  overflow: auto;
+  white-space: pre-wrap;
+  line-height: 1.55;
+  color: rgba(255, 255, 255, 0.82);
+  font-family: inherit;
+  font-size: 0.94rem;
+}
+
+.proposal-box button {
+  margin-top: 14px;
+}

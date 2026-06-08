@@ -25,12 +25,12 @@ type SavedDemo = {
 const starterForm: DemoForm = {
   businessName: "Blue Ridge Apparel",
   industry: "Clothing Brand",
-  whatTheySell: "premium hoodies, tees, and branded merch",
+  whatTheySell: "premium hoodies, tees, branded merch",
   targetCustomer: "style-focused customers who want quality streetwear",
   brandTone: "Premium, bold, modern",
   packageType: "Pro Storefront + Dashboard",
   primaryColor: "#d4af37",
-  contactEmail: "owner@example.com",
+  contactEmail: "awolf4277@gmail.com",
 };
 
 function splitItems(value: string) {
@@ -46,10 +46,17 @@ function priceForIndex(index: number) {
   return prices[index] || "$99";
 }
 
+function gmailComposeUrl(to: string, subject: string, body: string) {
+  return `https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(
+    to
+  )}&su=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+}
+
 function App() {
   const [form, setForm] = useState<DemoForm>(starterForm);
   const [copied, setCopied] = useState("");
   const [saved, setSaved] = useState("");
+
   const [savedDemos, setSavedDemos] = useState<SavedDemo[]>(() => {
     try {
       return JSON.parse(localStorage.getItem("client-demo-generator:demos") || "[]");
@@ -76,7 +83,9 @@ function App() {
 
     const headline = `Launch a premium storefront for ${businessName}.`;
 
-    const subheadline = `${businessName} can showcase ${form.whatTheySell || "products and services"}, capture buyer interest, and manage orders from a simple owner dashboard.`;
+    const subheadline = `${businessName} can showcase ${
+      form.whatTheySell || "products and services"
+    }, capture buyer interest, and manage orders from a simple owner dashboard.`;
 
     const ownerSummary = `Owner dashboard for ${businessName}: products, orders, inventory, buyer leads, setup requests, and site analytics in one command center.`;
 
@@ -97,11 +106,68 @@ Recommended package: ${packageType}
 
 This can be customized and deployed as a working storefront + owner system.`;
 
+    const outreach = `Hey, I made a custom storefront + owner dashboard demo concept for ${businessName}.
+
+It includes:
+- Customer storefront
+- Product/service cards
+- Cart and checkout flow
+- Owner dashboard
+- Orders and inventory
+- Buyer lead capture
+- Site analytics
+
+I can customize and deploy something like this for your business.
+
+Want me to show you the demo?`;
+
+    const legalNotice = `Legal / Use Notice for ${businessName}
+
+This demo is a concept preview created to show what a storefront, checkout flow, buyer lead capture, owner dashboard, inventory tools, and analytics could look like for the business.
+
+This demo is not a final contract, guarantee, financial promise, or legal agreement. Final features, pricing, timelines, payment setup, hosting, integrations, design, and business rules must be confirmed in writing before production work begins.
+
+All brand names, product names, images, copy, prices, and business details should be reviewed and approved by the business owner before public launch.
+
+Third-party services such as hosting, email, payment processors, domains, analytics tools, or integrations may require separate accounts, fees, terms, and approvals.
+
+The demo system, layout, code structure, sales workflow, and WOLF OS? / I AM THE ONE? presentation are created by Andrew Wolverton unless otherwise agreed in writing. Client-specific content can be customized for the buyer after agreement.`;
+
+    const proposalSummary = `Proposal Summary for ${businessName}
+
+Business Type:
+${industry}
+
+Recommended Package:
+${packageType}
+
+Demo Direction:
+A ${brandTone} storefront and owner dashboard system designed for ${targetCustomer}.
+
+Core Build Includes:
+- Custom customer storefront
+- Product or service offer cards
+- Cart and checkout/request flow
+- Owner dashboard
+- Orders and inventory/service controls
+- Buyer lead capture
+- Site analytics
+- Legal / use notice copy
+
+Goal:
+Give ${businessName} a clean online buying experience and a simple owner command center to manage customer interest, offers, and activity.
+
+Next Step:
+Confirm desired features, final pricing, timeline, content, payment method, and launch plan before production buildout begins.`;
+
     return {
       headline,
       subheadline,
       ownerSummary,
       pitch,
+      outreach,
+      legalNotice,
+      proposalSummary,
       cards: items.map((item, index) => ({
         name: item,
         price: priceForIndex(index),
@@ -119,6 +185,25 @@ This can be customized and deployed as a working storefront + owner system.`;
   async function copyPitch() {
     await navigator.clipboard.writeText(generated.pitch);
     setCopied("Demo pitch copied.");
+    setSaved("");
+  }
+
+  async function copyOutreachMessage() {
+    await navigator.clipboard.writeText(generated.outreach);
+    setCopied("Short outreach message copied.");
+    setSaved("");
+  }
+
+  async function copyLegalNotice() {
+    await navigator.clipboard.writeText(generated.legalNotice);
+    setCopied("Legal notice copied.");
+    setSaved("");
+  }
+
+  async function copyProposalSummary() {
+    await navigator.clipboard.writeText(generated.proposalSummary);
+    setCopied("Proposal summary copied.");
+    setSaved("");
   }
 
   function saveDemo() {
@@ -141,6 +226,7 @@ This can be customized and deployed as a working storefront + owner system.`;
     localStorage.setItem("client-demo-generator:last-demo", JSON.stringify(demo));
 
     setSaved("Demo saved to library.");
+    setCopied("");
   }
 
   function loadDemo(demo: SavedDemo) {
@@ -154,30 +240,9 @@ This can be customized and deployed as a working storefront + owner system.`;
 
     setSavedDemos(next);
     localStorage.setItem("client-demo-generator:demos", JSON.stringify(next));
+
+    setCopied("");
     setSaved("Saved demo removed.");
-  }
-
-  async function copyOutreachMessage() {
-    const businessName = form.businessName.trim() || "your business";
-
-    await navigator.clipboard.writeText(
-      `Hey, I made a custom storefront + owner dashboard demo concept for ${businessName}.
-
-It includes:
-- Customer storefront
-- Product/service cards
-- Cart and checkout flow
-- Owner dashboard
-- Orders and inventory
-- Buyer lead capture
-- Site analytics
-
-I can customize and deploy something like this for your business.
-
-Want me to show you the demo?`
-    );
-
-    setCopied("Short outreach message copied.");
   }
 
   function exportJson() {
@@ -317,7 +382,7 @@ Want me to show you the demo?`
             <input
               value={form.contactEmail}
               onChange={(event) => updateField("contactEmail", event.target.value)}
-              placeholder="owner@example.com"
+              placeholder="awolf4277@gmail.com"
             />
           </label>
 
@@ -325,15 +390,27 @@ Want me to show you the demo?`
             <button type="button" onClick={copyPitch}>
               Copy Pitch
             </button>
+
             <button type="button" onClick={copyOutreachMessage}>
               Copy Outreach
             </button>
+
+            <button type="button" onClick={copyLegalNotice}>
+              Copy Legal
+            </button>
+
+            <button type="button" onClick={copyProposalSummary}>
+              Copy Proposal
+            </button>
+
             <button type="button" onClick={saveDemo}>
               Save Local
             </button>
+
             <button type="button" onClick={exportJson}>
               Export JSON
             </button>
+
             <button type="button" className="ghost" onClick={resetDemo}>
               Reset
             </button>
@@ -354,14 +431,21 @@ Want me to show you the demo?`
                   <article className="saved-demo-card" key={demo.id}>
                     <div>
                       <strong>{demo.businessName}</strong>
-                      <span>{demo.industry} ? {demo.packageType}</span>
+                      <span>
+                        {demo.industry} · {demo.packageType}
+                      </span>
                     </div>
 
                     <div className="saved-demo-actions">
                       <button type="button" onClick={() => loadDemo(demo)}>
                         Load
                       </button>
-                      <button type="button" className="ghost" onClick={() => deleteDemo(demo.id)}>
+
+                      <button
+                        type="button"
+                        className="ghost"
+                        onClick={() => deleteDemo(demo.id)}
+                      >
                         Delete
                       </button>
                     </div>
@@ -381,7 +465,18 @@ Want me to show you the demo?`
             <p>{generated.subheadline}</p>
 
             <div className="preview-actions">
-              <a href={`mailto:${form.contactEmail}`}>Contact Business</a>
+              <a
+                href={gmailComposeUrl(
+                  form.contactEmail || "awolf4277@gmail.com",
+                  `${form.businessName || "Client"} demo concept`,
+                  generated.pitch
+                )}
+                target="_blank"
+                rel="noreferrer"
+              >
+                Email Owner
+              </a>
+
               <button type="button" onClick={copyPitch}>
                 Copy Demo Pitch
               </button>
@@ -417,6 +512,32 @@ Want me to show you the demo?`
           <div className="pitch-box">
             <p className="kicker">Generated Pitch</p>
             <pre>{generated.pitch}</pre>
+          </div>
+
+          <div className="proposal-box">
+            <div>
+              <p className="kicker">Close Kit</p>
+              <h3>Proposal Summary</h3>
+            </div>
+
+            <pre>{generated.proposalSummary}</pre>
+
+            <button type="button" onClick={copyProposalSummary}>
+              Copy Proposal Summary
+            </button>
+          </div>
+
+          <div className="legal-box">
+            <div>
+              <p className="kicker">Protection</p>
+              <h3>Legal / Use Notice</h3>
+            </div>
+
+            <pre>{generated.legalNotice}</pre>
+
+            <button type="button" onClick={copyLegalNotice}>
+              Copy Legal Notice
+            </button>
           </div>
         </section>
       </section>
