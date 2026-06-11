@@ -131,7 +131,7 @@ All brand names, product names, images, copy, prices, and business details shoul
 
 Third-party services such as hosting, email, payment processors, domains, analytics tools, or integrations may require separate accounts, fees, terms, and approvals.
 
-The demo system, layout, code structure, sales workflow, and WOLF OS\u2122 / I AM THE ONE\u2122 presentation are created by Andrew Wolverton unless otherwise agreed in writing. Client-specific content can be customized for the buyer after agreement.`;
+The demo system, layout, code structure, sales workflow, and WOLF OS / I AM THE ONE presentation are created by Andrew Wolverton unless otherwise agreed in writing. Client-specific content can be customized for the buyer after agreement.`;
 
     const proposalSummary = `Proposal Summary for ${businessName}
 
