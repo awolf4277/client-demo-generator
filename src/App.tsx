@@ -454,7 +454,7 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
   }
 
   function loadDemo(demo: SavedDemo) {
-    setForm(demo.form);
+    setForm({ ...starterForm, ...demo.form });
     setCopied("");
     setSaved(`Loaded ${demo.businessName}.`);
   }
