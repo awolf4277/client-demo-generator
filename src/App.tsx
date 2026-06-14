@@ -222,7 +222,21 @@ Thanks,
 Andrew Wolverton
 ${contact}`;
   }
+  function getBuyerEmailSubject() {
+    return getBuyerEmail().split("\n")[0].replace(/^Subject:\s*/i, "").trim();
+  }
 
+  function getBuyerEmailBody() {
+    return getBuyerEmail().split("\n").slice(2).join("\n").trim();
+  }
+
+  function getBuyerEmailLink() {
+    const to = form.contactEmail.trim() || "awolf4277@gmail.com";
+
+    return `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(
+      getBuyerEmailSubject()
+    )}&body=${encodeURIComponent(getBuyerEmailBody())}`;
+  }
   async function copyBuyerEmail() {
     await navigator.clipboard.writeText(getBuyerEmail());
     setCopied("Buyer email copied.");
@@ -435,6 +449,9 @@ ${contact}`;
               Buyer Email Generator
             </button>
 
+            <a className="email-action" href={getBuyerEmailLink()}>
+              Open Email Draft
+            </a>
             <button type="button" onClick={saveDemo}>
               Save Local
             </button>
