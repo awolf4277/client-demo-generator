@@ -193,7 +193,6 @@ Confirm desired features, final pricing, timeline, content, payment method, and 
     setCopied("Short outreach message copied.");
     setSaved("");
   }
-
   async function copyLegalNotice() {
     await navigator.clipboard.writeText(generated.legalNotice);
     setCopied("Legal notice copied.");
