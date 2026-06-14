@@ -424,6 +424,61 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
     setCopied("Full close kit HTML downloaded.");
     setSaved("");
   }
+  function getClientAgreement() {
+    const name = form.businessName.trim() || "Client";
+
+    const packagePrice = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(Number(form.packagePrice || 0));
+
+    const depositDue = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(Number(form.depositDue || 0));
+
+    const remainingBalance = new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency: "USD",
+      maximumFractionDigits: 0,
+    }).format(
+      Math.max(Number(form.packagePrice || 0) - Number(form.depositDue || 0), 0)
+    );
+
+    return `Client Approval / Next Step Agreement for ${name}
+
+Selected Package:
+${form.packageType}
+
+Package Price:
+${packagePrice}
+
+Deposit Due:
+${depositDue}
+
+Remaining Balance:
+${remainingBalance}
+
+To move forward, ${name} should confirm:
+
+- Selected package and requested features
+- Package price, deposit amount, and remaining balance
+- Payment method and payment timing
+- Business logo, photos, product/service details, copy, and contact info
+- Domain, hosting, email, analytics, and third-party account needs
+- Target launch timeline
+- Final approval before production buildout begins
+
+This agreement note is not a final contract by itself. It is a next-step checklist to confirm scope, pricing, timeline, content, payment, and launch requirements in writing before production work begins.`;
+  }
+
+  async function copyClientAgreement() {
+    await navigator.clipboard.writeText(getClientAgreement());
+    setCopied("Client approval agreement copied.");
+    setSaved("");
+  }
   async function copyProposalSummary() {
     await navigator.clipboard.writeText(generated.proposalSummary);
     setCopied("Proposal summary copied.");
@@ -781,6 +836,19 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
             <button type="button" onClick={downloadFullCloseKitHtml}>
               Download Full Close Kit HTML
             </button>
+
+            <div className="legal-box">
+              <div>
+                <p className="kicker">Client Approval</p>
+                <h3>Next Step Agreement</h3>
+              </div>
+
+              <pre>{getClientAgreement()}</pre>
+
+              <button type="button" onClick={copyClientAgreement}>
+                Copy Client Agreement
+              </button>
+            </div>
           </div>
 
           <div className="legal-box">
