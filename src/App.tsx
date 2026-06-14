@@ -283,6 +283,139 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
     setCopied("Full close kit copied.");
     setSaved("");
   }
+  function downloadFullCloseKitHtml() {
+    const safeName =
+      form.businessName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || "client";
+
+    const titleName = form.businessName.trim() || "Client";
+
+    const escapeHtml = (value: string) =>
+      value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${escapeHtml(titleName)} Full Close Kit</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+    main {
+      max-width: 920px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+    .hero,
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 22px;
+      padding: 28px;
+      margin-bottom: 20px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+    .kicker {
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 38px;
+      line-height: 1.1;
+    }
+    h2 {
+      margin-top: 0;
+      color: #ffffff;
+    }
+    pre {
+      white-space: pre-wrap;
+      font-family: inherit;
+      margin: 0;
+      color: #e5e7eb;
+    }
+    .footer {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <p class="kicker">Full Close Kit</p>
+      <h1>${escapeHtml(titleName)}</h1>
+      <p>Generated buyer-ready sales package for review, outreach, and close follow-up.</p>
+    </section>
+
+    <section class="card">
+      <p class="kicker">Generated Pitch</p>
+      <h2>Sales Pitch</h2>
+      <pre>${escapeHtml(generated.pitch)}</pre>
+    </section>
+
+    <section class="card">
+      <p class="kicker">Proposal Summary</p>
+      <h2>Build Proposal</h2>
+      <pre>${escapeHtml(generated.proposalSummary)}</pre>
+    </section>
+
+    <section class="card">
+      <p class="kicker">Buyer Email</p>
+      <h2>Ready-to-send Email</h2>
+      <pre>${escapeHtml(getBuyerEmail())}</pre>
+    </section>
+
+    <section class="card">
+      <p class="kicker">Protection</p>
+      <h2>Legal / Use Notice</h2>
+      <pre>${escapeHtml(generated.legalNotice)}</pre>
+    </section>
+
+    <section class="card">
+      <p class="kicker">Next Step</p>
+      <h2>Close Action</h2>
+      <pre>Confirm desired features, final pricing, timeline, content, payment method, launch plan, and buyer approval before production buildout begins.</pre>
+    </section>
+
+    <p class="footer">Generated with WOLF OS / I AM THE ONE sales workflow by Andrew Wolverton.</p>
+  </main>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `${safeName}-full-close-kit.html`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+    setCopied("Full close kit HTML downloaded.");
+    setSaved("");
+  }
   async function copyProposalSummary() {
     await navigator.clipboard.writeText(generated.proposalSummary);
     setCopied("Proposal summary copied.");
@@ -617,6 +750,9 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
             </button>
             <button type="button" onClick={copyFullCloseKit}>
               Copy Full Close Kit
+            </button>
+            <button type="button" onClick={downloadFullCloseKitHtml}>
+              Download Full Close Kit HTML
             </button>
           </div>
 
