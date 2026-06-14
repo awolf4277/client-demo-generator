@@ -242,6 +242,47 @@ ${contact}`;
     setCopied("Buyer email copied.");
     setSaved("");
   }
+  function getFullCloseKit() {
+    const name = form.businessName.trim() || "Client";
+
+    return `FULL CLOSE KIT — ${name}
+
+==============================
+GENERATED PITCH
+==============================
+
+${generated.pitch}
+
+==============================
+PROPOSAL SUMMARY
+==============================
+
+${generated.proposalSummary}
+
+==============================
+BUYER EMAIL
+==============================
+
+${getBuyerEmail()}
+
+==============================
+LEGAL / USE NOTICE
+==============================
+
+${generated.legalNotice}
+
+==============================
+NEXT STEP
+==============================
+
+Confirm desired features, final pricing, timeline, content, payment method, launch plan, and buyer approval before production buildout begins.`;
+  }
+
+  async function copyFullCloseKit() {
+    await navigator.clipboard.writeText(getFullCloseKit());
+    setCopied("Full close kit copied.");
+    setSaved("");
+  }
   async function copyProposalSummary() {
     await navigator.clipboard.writeText(generated.proposalSummary);
     setCopied("Proposal summary copied.");
@@ -573,6 +614,9 @@ ${contact}`;
 
             <button type="button" onClick={copyProposalSummary}>
               Copy Proposal Summary
+            </button>
+            <button type="button" onClick={copyFullCloseKit}>
+              Copy Full Close Kit
             </button>
           </div>
 
