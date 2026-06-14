@@ -198,7 +198,36 @@ Confirm desired features, final pricing, timeline, content, payment method, and 
     setCopied("Legal notice copied.");
     setSaved("");
   }
+  function getBuyerEmail() {
+    const name = form.businessName.trim() || "your business";
+    const customer = form.targetCustomer.trim() || "your customers";
+    const tone = form.brandTone.trim() || "clean, professional";
+    const contact = form.contactEmail.trim() || "awolf4277@gmail.com";
 
+    return `Subject: ${name} storefront + owner dashboard demo
+
+Hi ${name} team,
+
+I put together a custom storefront + owner dashboard demo concept for ${name}.
+
+The demo is built for ${customer} and uses a ${tone} brand direction.
+
+Here is the proposal summary:
+
+${generated.proposalSummary}
+
+I can walk you through the demo, adjust the package, and confirm the final features, pricing, timeline, content, payment method, and launch plan before any production buildout begins.
+
+Thanks,
+Andrew Wolverton
+${contact}`;
+  }
+
+  async function copyBuyerEmail() {
+    await navigator.clipboard.writeText(getBuyerEmail());
+    setCopied("Buyer email copied.");
+    setSaved("");
+  }
   async function copyProposalSummary() {
     await navigator.clipboard.writeText(generated.proposalSummary);
     setCopied("Proposal summary copied.");
@@ -400,6 +429,10 @@ Confirm desired features, final pricing, timeline, content, payment method, and 
 
             <button type="button" onClick={copyProposalSummary}>
               Copy Proposal
+            </button>
+
+            <button type="button" onClick={copyBuyerEmail}>
+              Buyer Email Generator
             </button>
 
             <button type="button" onClick={saveDemo}>
