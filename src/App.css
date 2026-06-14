@@ -452,3 +452,12 @@ a + button {
   margin-left: 8px;
   margin-top: 8px;
 }
+
+/* Close kit action spacing */
+.legal-box button,
+.legal-box a,
+.preview-card button,
+.preview-card a {
+  margin-right: 8px;
+  margin-top: 8px;
+}
