@@ -474,6 +474,103 @@ To move forward, ${name} should confirm:
 This agreement note is not a final contract by itself. It is a next-step checklist to confirm scope, pricing, timeline, content, payment, and launch requirements in writing before production work begins.`;
   }
 
+  function downloadClientAgreementHtml() {
+    const safeName =
+      form.businessName
+        .trim()
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || "client";
+
+    const titleName = form.businessName.trim() || "Client";
+
+    const escapeHtml = (value: string) =>
+      value
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&#039;");
+
+    const html = `<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>${escapeHtml(titleName)} Client Agreement</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      line-height: 1.6;
+    }
+    main {
+      max-width: 860px;
+      margin: 0 auto;
+      padding: 48px 20px;
+    }
+    .card {
+      background: #111827;
+      border: 1px solid #334155;
+      border-radius: 22px;
+      padding: 28px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.28);
+    }
+    .kicker {
+      color: #93c5fd;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      font-size: 12px;
+      font-weight: 700;
+      margin: 0 0 8px;
+    }
+    h1 {
+      margin: 0 0 12px;
+      font-size: 36px;
+      line-height: 1.1;
+    }
+    pre {
+      white-space: pre-wrap;
+      font-family: inherit;
+      margin: 0;
+      color: #e5e7eb;
+    }
+    .footer {
+      color: #94a3b8;
+      font-size: 13px;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="card">
+      <p class="kicker">Client Approval</p>
+      <h1>${escapeHtml(titleName)} Next Step Agreement</h1>
+      <pre>${escapeHtml(getClientAgreement())}</pre>
+    </section>
+
+    <p class="footer">Generated with WOLF OS / I AM THE ONE sales workflow by Andrew Wolverton.</p>
+  </main>
+</body>
+</html>`;
+
+    const blob = new Blob([html], { type: "text/html;charset=utf-8" });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = `${safeName}-client-agreement.html`;
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    URL.revokeObjectURL(url);
+    setCopied("Client agreement HTML downloaded.");
+    setSaved("");
+  }
   async function copyClientAgreement() {
     await navigator.clipboard.writeText(getClientAgreement());
     setCopied("Client approval agreement copied.");
@@ -847,6 +944,9 @@ This agreement note is not a final contract by itself. It is a next-step checkli
 
               <button type="button" onClick={copyClientAgreement}>
                 Copy Client Agreement
+              </button>
+              <button type="button" onClick={downloadClientAgreementHtml}>
+                Download Client Agreement HTML
               </button>
             </div>
           </div>
