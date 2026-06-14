@@ -10,6 +10,8 @@ type DemoForm = {
   packageType: string;
   primaryColor: string;
   contactEmail: string;
+  packagePrice: string;
+  depositDue: string;
 };
 
 type SavedDemo = {
@@ -31,6 +33,8 @@ const starterForm: DemoForm = {
   packageType: "Pro Storefront + Dashboard",
   primaryColor: "#d4af37",
   contactEmail: "awolf4277@gmail.com",
+  packagePrice: "1500",
+  depositDue: "500",
 };
 
 function splitItems(value: string) {
@@ -76,7 +80,7 @@ function App() {
   const generated = useMemo(() => {
     const businessName = form.businessName.trim() || "Your Business";
     const industry = form.industry.trim() || "Small Business";
-    const targetCustomer =
+const targetCustomer =
       form.targetCustomer.trim() || "customers who want a clean buying experience";
     const brandTone = form.brandTone.trim() || "Premium, clean, modern";
     const packageType = form.packageType.trim() || "Starter Storefront";
@@ -139,10 +143,15 @@ Business Type:
 ${industry}
 
 Recommended Package:
-${packageType}
+${form.packageType}
+
+Pricing:
+Package Price: ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Number(form.packagePrice || 0))}
+Deposit Due: ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Number(form.depositDue || 0))}
+Remaining Balance: ${new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 }).format(Math.max(Number(form.packagePrice || 0) - Number(form.depositDue || 0), 0))}
 
 Demo Direction:
-A ${brandTone} storefront and owner dashboard system designed for ${targetCustomer}.
+A ${form.brandTone || "clean, professional"} storefront and owner dashboard system designed for ${targetCustomer}.
 
 Core Build Includes:
 - Custom customer storefront
@@ -159,8 +168,7 @@ Give ${businessName} a clean online buying experience and a simple owner command
 
 Next Step:
 Confirm desired features, final pricing, timeline, content, payment method, and launch plan before production buildout begins.`;
-
-    return {
+return {
       headline,
       subheadline,
       ownerSummary,
@@ -591,7 +599,26 @@ Confirm desired features, final pricing, timeline, content, payment method, laun
               value={form.primaryColor}
               onChange={(event) => updateField("primaryColor", event.target.value)}
             />
+          </label>          <label>
+            Package price
+            <input
+              value={form.packagePrice}
+              onChange={(event) => updateField("packagePrice", event.target.value)}
+              placeholder="1500"
+              inputMode="numeric"
+            />
           </label>
+
+          <label>
+            Deposit due
+            <input
+              value={form.depositDue}
+              onChange={(event) => updateField("depositDue", event.target.value)}
+              placeholder="500"
+              inputMode="numeric"
+            />
+          </label>
+
 
           <label>
             Contact email

@@ -443,3 +443,12 @@ button.ghost {
 .email-action:hover {
   border-color: rgba(255, 255, 255, 0.75);
 }
+
+/* Close kit button spacing */
+pre + button,
+button + button,
+button + a,
+a + button {
+  margin-left: 8px;
+  margin-top: 8px;
+}
