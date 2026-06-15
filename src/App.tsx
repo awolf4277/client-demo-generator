@@ -661,6 +661,14 @@ This agreement note is not a final contract by itself. It is a next-step checkli
         <div>
           <p className="kicker">WOLF OS™ Sales Tool</p>
           <h1>Client Demo Generator</h1>
+          <div className="sales-mode-banner">
+            <strong>Live Demo Mode / Sales Mode</strong>
+            <span>
+              This generator creates buyer-facing storefront proposals, close kits,
+              email drafts, legal-use notes, and client approval checklists. No client
+              data is sent to a backend.
+            </span>
+          </div>
           <p>
             Generate custom buyer-facing demo copy, offer cards, and a clean sales
             pitch in under 60 seconds.

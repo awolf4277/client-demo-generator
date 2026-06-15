@@ -461,3 +461,26 @@ a + button {
   margin-right: 8px;
   margin-top: 8px;
 }
+
+.sales-mode-banner {
+  margin-top: 16px;
+  padding: 14px 16px;
+  border: 1px solid rgba(148, 163, 184, 0.35);
+  border-radius: 18px;
+  background: rgba(15, 23, 42, 0.72);
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.18);
+  display: grid;
+  gap: 6px;
+  max-width: 760px;
+}
+
+.sales-mode-banner strong {
+  color: #ffffff;
+  font-size: 0.95rem;
+}
+
+.sales-mode-banner span {
+  color: rgba(226, 232, 240, 0.82);
+  font-size: 0.92rem;
+  line-height: 1.5;
+}
